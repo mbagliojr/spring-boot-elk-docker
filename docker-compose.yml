@@ -12,8 +12,6 @@ services:
       interval: 2m30s
       timeout: 10s
       retries: 5
-    environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
     volumes:
       - ./logs:/deployments/logs
     logging:
