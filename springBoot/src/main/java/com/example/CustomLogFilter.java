@@ -2,7 +2,7 @@ package com.example;
 
 import org.slf4j.MDC;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -13,8 +13,12 @@ public class CustomLogFilter implements Filter {
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
 		
-		MDC.put("username", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-		MDC.put("password", SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
+		if(SecurityContextHolder.getContext() != null 
+			&& SecurityContextHolder.getContext().getAuthentication() != null
+			&& SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+		
+			MDC.put("username", ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		}
 
 		if(arg2 != null) {
 			arg2.doFilter(arg0, arg1);
@@ -24,7 +28,6 @@ public class CustomLogFilter implements Filter {
 	@Override
 	public void destroy() {
 		MDC.remove("username");
-		MDC.remove("password");
 	}
 	
 	@Override
