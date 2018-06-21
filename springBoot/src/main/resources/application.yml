@@ -9,3 +9,6 @@ spring:
 
 logging:
   config: classpath:logback-elastic.xml
+
+logstash:
+  server: logstash:5000
