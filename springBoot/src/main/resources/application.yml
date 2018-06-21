@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: assign
+    name: HelloWorld
   thymeleaf:
     cache: false
 
